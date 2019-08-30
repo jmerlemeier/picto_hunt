@@ -1,0 +1,30 @@
+{
+  "name": "picto_hunt",
+  "version": "1.0.0",
+  "description": "401 project with SS, JD, PC, JE",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmerlemeier/picto_hunt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmerlemeier/picto_hunt/issues"
+  },
+  "homepage": "https://github.com/jmerlemeier/picto_hunt#readme",
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.2",
+    "pg": "^7.12.1",
+    "superagent": "^5.1.0"
+  }
+}
