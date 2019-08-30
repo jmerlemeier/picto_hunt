@@ -1,5 +1,9 @@
-### picto_hunt
+# picto_hunt
 401 project with SS, JD, PC, JE
+
+### Dependencies
+To install dependencies use npm install;
+The dependencies are; dotenv, ejs, express, method-override, pg, superagent, and multer.
 
 ### Time Schedule
 8/29/19, 7-930pm, Peter
