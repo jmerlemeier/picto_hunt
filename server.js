@@ -15,35 +15,22 @@ const client = new vision.ImageAnnotatorClient({
   keyFilename: 'visionAPIKey.json'
 });
 
-client
-  .labelDetection('./uploads/fullsize/1567535089566-image.jpg')
-  .then(results => {
-    const labels = results[0].labelAnnotations;
+function googleVisionApi(url){
+  client
+    .labelDetection(url)
+    .then(results => {
+      const labels = results[0].labelAnnotations;
+  
+      console.log('Labels:');
+      labels.forEach(label => console.log(label.description));
+      console.log(results[0].labelAnnotations);
+    })
+    .catch(err => {
+      console.error('ERROR:', err);
+    });
+}
 
-    console.log('Labels:');
-    labels.forEach(label => console.log(label.description));
-    console.log(results[0].labelAnnotations);
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
-
-// object sample code
-// const fileName = `/uploads/fullsize/1567534677649-image.jpg`;
-// const request = {
-//   image: {content: fs.readFileSync(fileName)},
-// };
-
-// const [result] = await client.objectLocalization(request);
-// const objects = result.localizedObjectAnnotations;
-// objects.forEach(object => {
-//   console.log(`Name: ${object.name}`);
-//   console.log(`Confidence: ${object.score}`);
-// //   const vertices = object.boundingPoly.normalizedVertices;
-// //   vertices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
-// });
-
-/////////////
+// googleVisionApi('./uploads/fullsize/1567535089566-image.jpg');
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -60,10 +47,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-//=====================
-app.get('/', (request, response) => {
-  response.render('pages/index');
-})
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
 
@@ -74,17 +57,19 @@ function renderGame(request, response) {
 }
 
 function renderHome(request, response) {
-  response.render('index');
+  response.render('pages/index');
 }
 
-app.post('/upload', upload.single('image'), function(req, res, next) {
-  res.render('myupload', { image: req.file.path });
+app.post('/result', upload.single('image'), function(req, res, next) {
+  res.render('./pages/result', { image: req.file.path });
 });
+
 app.get('/uploads/fullsize/:file', function(req, res) {
   let file = req.params.file;
   var img = fs.readFileSync(__dirname + '/uploads/fullsize/' + file);
   res.writeHead(200, { 'Content-Type': 'image/jpg' });
   res.end(img, 'binary');
+  googleVisionApi(__dirname + '/uploads/fullsize/' + file);
 });
 
 app.listen(PORT, () => { console.log(`app is up on port ${PORT}. BYEAH!`) });
