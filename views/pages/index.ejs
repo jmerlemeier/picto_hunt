@@ -1,10 +1,14 @@
 <%- include ../layout/head.ejs %>
 
     <body>
-        <%- include ../layout/nav.ejs %>
+        <%- include ../layout/header.ejs %>
             <main>
                 <form>
                     <input type="text" id="nameInput" />
+                </form>
+
+                <form action="/pictostart">
+                    <input type="submit" id="gameStart" text="play the game" />
                 </form>
             </main>
 
