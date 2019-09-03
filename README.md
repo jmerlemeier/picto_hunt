@@ -98,3 +98,10 @@ As a busy business owner he would like an easy interface that doesn’t take a h
 =========================================================
 
 Kristin is a 20 year old Seattlite who has been recovering from major surgery. For the last 6 months, she has had a sedentary lifestyle. It has effected her physical and mental health. She wants a way to get exercise, see the city, and have some fun at the same time. As a user, she wants to play an enjoyable scavenger hunt game in order to walk around the city for exercise and fun.
+
+## Resources
+### Google Cloud Vision API: Node.js Client
+https://cloud.google.com/nodejs/docs/reference/vision/0.22.x/
+### 'Using Google Vision API with Node JS App' from YouTube
+https://www.youtube.com/watch?v=BFOeM8ATWdk&t=13s
+### 
