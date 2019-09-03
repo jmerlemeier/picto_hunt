@@ -13,3 +13,7 @@ body {
     font-family: monospace;
     overflow: hidden;
 }
+
+* {
+    box-sizing: border-box;
+}
