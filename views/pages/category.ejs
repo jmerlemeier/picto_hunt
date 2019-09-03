@@ -1,0 +1,14 @@
+<%- include ../layout/head.ejs %>
+
+    <body>
+        <%- include ../layout/nav.ejs %>
+            <main>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="image" accept="image/*">
+                    <button>Save File</button>
+                </form>
+            </main>
+
+    </body>
+
+    </html>
