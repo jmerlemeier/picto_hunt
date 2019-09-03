@@ -3,11 +3,10 @@
     <body>
         <%- include ../layout/header.ejs %>
             <main>
-                <form>
-                    <input type="text" id="nameInput" />
-                </form>
-
+                <h1>pictohunt.</h1>
+                <p>A scavenger game to play around the town. Snap a pic of whatever we tell you to. Submit the picture. Get points</p>
                 <form action="/pictostart">
+                    <input type="text" id="nameInput" />
                     <input type="submit" id="gameStart" text="play the game" />
                 </form>
             </main>
