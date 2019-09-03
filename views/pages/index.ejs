@@ -6,10 +6,17 @@
                 <h1>pictohunt.</h1>
                 <p>A scavenger game to play around the town. Snap a pic of whatever we tell you to. Submit the picture. Get points</p>
                 <form action="/pictostart">
-                    <input type="text" id="nameInput" />
-                    <input type="submit" id="gameStart" text="play the game" />
+                    <div class="centered">
+                        <div class="group">
+                            <input type="text" id="name" required="required" />
+                            <label for="name">enter your name</label>
+                            <div class="bar"></div>
+                        </div>
+                    </div>
                 </form>
+                <%- include ../layout/footer.ejs %>
             </main>
+
 
     </body>
 
