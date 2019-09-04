@@ -9,7 +9,11 @@ let multer = require('multer');
 let fs = require('fs');
 
 const answers = ['dog', 'cat', 'yoga mats', 'water bottle', 'computer', 'phone', 'cup'];
-let randomInt = Math.floor(Math.random() * answers.length);
+// For now always looking for computers
+let randomInt = 4;
+
+// Uncomment for random answers
+// let randomInt = Math.floor(Math.random() * answers.length);
 let answer = answers[randomInt];
 
 console.log(`Go find a ${answer}`)
@@ -21,34 +25,37 @@ const client = new vision.ImageAnnotatorClient({
   keyFilename: 'visionAPIKey.json'
 });
 
+//input: needs a url as a string
 function googleVisionApi(url){
   client
     .labelDetection(url)
     .then(results => {
       const labels = results[0].labelAnnotations;
+
+      //This will update the regex for each answer;
       let regex = new RegExp(answer, "gi")
       console.log('the regex is',regex);
-      console.log('')
   
-      console.log('Labels:');
-      labels.forEach(label => console.log(label.description));
-      console.log(results[0].labelAnnotations);
+      // Debugging Stuff
+      // labels.forEach(label => console.log(label.description));
+      // console.log(results[0].labelAnnotations);
+
       labels.forEach(label => {
-        if(label.description.toLowerCase().match(regex) && label.score > .5){
-          console.log(`it's a match!`)
-          console.log(`the ${label.description} has a ${label.score}% match`)
-          
+        // If it contains the answer and a score higher than 50% then it is a match
+        if(label.description.match(regex) && label.score > .5){
+          console.log(`it's a match!`);
+          console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
 
           //send to happy place
+          //There are a couple options; Could redirect to a url, app.render a new file location, or could pass to ejs with a conditional response. 
         }else{
           console.log('no match :(');
+          console.log(`${label.description} is not a match`);
 
           //send to bummer :(
+          
         }
-
       })
-      
-
     })
     .catch(err => {
       console.error('ERROR:', err);
