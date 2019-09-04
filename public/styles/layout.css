@@ -98,7 +98,7 @@ a:hover {
 
 #menu {
     position: absolute;
-    width: 100%;
+    width: 120%;
     margin: -100px 0 0 -50px;
     padding: 50px;
     padding-top: 125px;
@@ -135,6 +135,8 @@ a:hover {
 }
 
 #favicon {
+    position: relative;
+    z-index: 2;
     float: right;
     margin-top: 10px;
     margin-right: 10px;
