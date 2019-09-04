@@ -110,6 +110,14 @@ h4 {
 
 h2 {
     font-family: 'Poiret One';
-    color: white;
-    font-size: 2em;
+    color: darkslategray;
+    font-size: 3em;
+    text-align: center;
+}
+
+h3 {
+    font-family: 'Permanent Marker', cursive;
+    text-align: center;
+    font-size: 3em;
+    margin-top: 30px;
 }
