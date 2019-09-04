@@ -49,11 +49,12 @@ function googleVisionApi(url){
           console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
           response = `It's a match!`;
           
-        }else{
+        }else if (response !== `It's a match!`){
           console.log('no match :(');
           console.log(`${label.description} is not a match`);
           response = `Not a match`;
         }
+        console.log(response);
       })
       return response;
     })
@@ -88,7 +89,7 @@ function renderHome(request, response) {
 
 app.post('/result', upload.single('image'), function(req, res, next) {
   googleVisionApi(req.file.path).then(sucess => {
-    res.render('./pages/result', { image: req.file.path, msg: sucess });
+    res.render('./pages/testy', { image: req.file.path, msg: sucess });
 
   });
 });
