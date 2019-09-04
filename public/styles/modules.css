@@ -85,15 +85,17 @@ input:-webkit-autofill {
     position: absolute;
     margin: auto;
     text-align: center;
-    bottom: 10px;
     color: #ededed;
+    bottom: 2%;
+    padding-left: 25%;
 }
 
-.bar2 {
+
+/* .bar2 {
     background: rgba(255, 255, 255, 0.5);
     content: '';
     width: 90%;
     height: 2px;
     position: relative;
     margin-bottom: 10px;
-}
+} */
