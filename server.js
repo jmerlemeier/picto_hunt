@@ -22,7 +22,7 @@ console.log(`Go find a ${answer}`)
 // imports client library for google cloud
 const vision = require('@google-cloud/vision');
 const client = new vision.ImageAnnotatorClient({
-  keyFilename: 'visionAPIKey.json'
+  credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS
 });
 
 //input: needs a url as a string
@@ -47,6 +47,10 @@ function googleVisionApi(url){
           console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
 
           //send to happy place
+          app.post('/result', upload.single('image'), function(req, res, next) {
+            res.render('./pages/result', { image: 'https://www.placecage.com/640/360' });
+          });
+
           //There are a couple options; Could redirect to a url, app.render a new file location, or could pass to ejs with a conditional response. 
         }else{
           console.log('no match :(');
@@ -84,17 +88,18 @@ app.get('/', renderHome);
 
 app.get('/pictostart', renderGame);
 
+// sends item to frontend to be rendered
 function renderGame(request, response) {
-  response.render('pages/category');
+  response.render('pages/category', {item: answer});
 }
 
 function renderHome(request, response) {
   response.render('pages/index');
 }
 
-app.post('/result', upload.single('image'), function(req, res, next) {
-  res.render('./pages/result', { image: req.file.path });
-});
+// app.post('/result', upload.single('image'), function(req, res, next) {
+//   res.render('./pages/result', { image: req.file.path });
+// });
 
 app.get('/uploads/fullsize/:file', function(req, res) {
   let file = req.params.file;
