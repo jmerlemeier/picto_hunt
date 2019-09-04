@@ -105,3 +105,38 @@ https://cloud.google.com/nodejs/docs/reference/vision/0.22.x/
 ### 'Using Google Vision API with Node JS App' from YouTube
 https://www.youtube.com/watch?v=BFOeM8ATWdk&t=13s
 ### 
+
+# Goals for the Project
+## MVP 
+* Single player game
+* no timer
+* photo can be added any time… and all that happens is photo is verified.
+* If you find an item and the picture of it is verified as a match...
+* That high score is shown in a new view.
+
+## Original Project Idea
+* Single player game.
+* Scavenger Hunt that requires the user to take picture of the item found, which is then
+* *We have an array of things to look for.
+* The user can choose how many things to look for, from 3 - array.length.
+* A new view will show up with timer at top
+* Timer adds 60 points for every item chosen - 3 images = 180 points.
+* Every minute the score reduces by 1 point, so you only have 1 hour per image.
+* You’ll have the list on the gameboard of the things to find IN ORDER.
+* The input file thing will not appear for the next item, until the first is verified.
+* When a user finds what they’re looking for, they take a photo and upload it.
+* Google vision API verifies that photo.
+* Then, user moves on to the next one.
+* When complete, the remaining points is the user’s score.
+* Score is posted to the database as a high score.
+* Database - unique table for each person. Pointer to image.
+
+## Stretch goals:
+* User adds in the item types they want (into the database)
+* Two or multiplayer game
+* Score combines time + distance (> distance, < time)
+* Every 1000 feet walked adds a Distance Bonus.
+* Pings location 1/min
+* Timer for each picture, as in 20 minutes per picture, that counts down
+* Drop down list of themes, like pirate theme that a user can use.
+* Gallery of items that a person can view.
