@@ -24,6 +24,11 @@ function googleVisionApi(url){
       console.log('Labels:');
       labels.forEach(label => console.log(label.description));
       console.log(results[0].labelAnnotations);
+      labels.forEach(label => {
+        console.log(`the ${label.description} has a ${label.score}% match`)
+      })
+      
+
     })
     .catch(err => {
       console.error('ERROR:', err);
