@@ -89,7 +89,7 @@ function renderHome(request, response) {
 
 app.post('/result', upload.single('image'), function(req, res, next) {
   googleVisionApi(req.file.path).then(sucess => {
-    res.render('./pages/testy', { image: req.file.path, msg: sucess });
+    res.render('./pages/result', { image: req.file.path, msg: sucess });
 
   });
 });
