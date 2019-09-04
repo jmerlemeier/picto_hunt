@@ -8,6 +8,12 @@ const PORT = process.env.PORT;
 let multer = require('multer');
 let fs = require('fs');
 
+const answers = ['dog', 'cat', 'yoga mats', 'water bottle', 'computer', 'phone', 'cup'];
+let randomInt = Math.floor(Math.random() * answers.length);
+let answer = answers[randomInt];
+
+console.log(`Go find a ${answer}`)
+
 /////// Google Vision SetUp ///////
 // imports client library for google cloud
 const vision = require('@google-cloud/vision');
@@ -20,12 +26,26 @@ function googleVisionApi(url){
     .labelDetection(url)
     .then(results => {
       const labels = results[0].labelAnnotations;
+      let regex = new RegExp(answer, "gi")
+      console.log('the regex is',regex);
+      console.log('')
   
       console.log('Labels:');
       labels.forEach(label => console.log(label.description));
       console.log(results[0].labelAnnotations);
       labels.forEach(label => {
-        console.log(`the ${label.description} has a ${label.score}% match`)
+        if(label.description.toLowerCase().match(regex) && label.score > .5){
+          console.log(`it's a match!`)
+          console.log(`the ${label.description} has a ${label.score}% match`)
+          
+
+          //send to happy place
+        }else{
+          console.log('no match :(');
+
+          //send to bummer :(
+        }
+
       })
       
 
