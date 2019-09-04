@@ -2,24 +2,28 @@
 
 
 const express = require('express');
+const pg = require('pg');
 const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT;
-
 let multer = require('multer');
 let fs = require('fs');
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./public'));
+
+//postgres client
+const pgclient = new pg.Client(process.env.DATABASE_URL);
+pgclient.connect();
+// setup error logging
+pgclient.on('error', (error) => console.error(error));
 
 const answers = ['dog', 'cat', 'yoga mats', 'water bottle', 'computer', 'phone', 'cup'];
 // For now always looking for computers
 let randomInt = 4;
-
 // Uncomment for random answers
 // let randomInt = Math.floor(Math.random() * answers.length);
 let answer = answers[randomInt];
-
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('./public'));
 
 console.log(`Go find a ${answer}`)
 
@@ -76,20 +80,28 @@ var upload = multer({ storage: storage })
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
 
-app.get('/pictostart', renderGame);
+// app.get('/pictostart', renderGame);
+// // sends item to frontend to be rendered
+// function renderGame(request, response) {
+//   response.render('pages/category', {item: answer});
+// }
 
-// sends item to frontend to be rendered
-function renderGame(request, response) {
-  response.render('pages/category', {item: answer});
+app.post('/pictostart', saveName);
+function saveName(req, res) {
+  console.log('****************** Request ********************')
+  console.log(req.body);
+  console.log('****************** Response ********************')
+  // console.log(res);
+  res.render('pages/category', {item: answer});
 }
-
 function renderHome(request, response) {
   response.render('pages/index');
+
 }
 
 app.post('/result', upload.single('image'), function(req, res, next) {
   googleVisionApi(req.file.path).then(sucess => {
-    res.render('./pages/testy', { image: req.file.path, msg: sucess });
+    res.render('./pages/result', { image: req.file.path, msg: sucess });
 
   });
 });
