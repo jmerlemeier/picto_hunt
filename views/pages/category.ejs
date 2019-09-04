@@ -8,7 +8,7 @@
                     </h4>
                 </div>
                 <div id="questionCard">
-                    <h2>Go take a picture of</h2>
+                    <h2>Go take a picture of a</h2>
                     <h3>
                         <%=item%>
                     </h3>
@@ -18,6 +18,12 @@
                         <input class="file-input" type="file" name="image" accept="image/*">
                         <button id="savePhoto">Save Photo</button>
                     </form>
+                </div>
+                <div id="photoInputPlaceholder">
+                    <h6>Take a Photo</h6>
+                </div>
+                <div id="savePhotoPlaceholder">
+                    <h6>Check Your Photo</h6>
                 </div>
                 <%- include ../layout/footer.ejs %>
             </main>
