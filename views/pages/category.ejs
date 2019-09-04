@@ -3,16 +3,20 @@
     <body>
         <%- include ../layout/header.ejs %>
             <main>
+                <div id="scoreCard">
+                    <h4>Points: test points
+                    </h4>
+                </div>
                 <div id="questionCard">
                     <h2>Go take a picture of</h2>
                     <h3>
-                        test object
+                        test item
                     </h3>
                 </div>
-                <div id="photoForm">
+                <div id="photoinput">
                     <form action="/result" method="POST" enctype="multipart/form-data">
                         <input class="file-input" type="file" name="image" accept="image/*">
-                        <label id="label" for="file"><span>Take Photo</span></label>
+                        <button id="savePhoto">Save Photo</button>
                     </form>
                 </div>
                 <%- include ../layout/footer.ejs %>
