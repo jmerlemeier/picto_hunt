@@ -4,11 +4,18 @@
         <%- include ../layout/header.ejs %>
             <main>
                 <div id="scoreCard">
-                    <h4>Points: test points
+                    <h4>score: test points
                     </h4>
                 </div>
                 <div id="resultCard">
-
+                    <div id="containerText">
+                        <p id="resultText">
+                            <%=msg%>
+                        </p>
+                        <a id="playAgain" href="/pictostart?">play again?</a>
+                    </div>
+                    <img id="resultImg" width=84% src="<%= image %>" />
+                </div>
                 </div>
                 <%- include ../layout/footer.ejs %>
             </main>
