@@ -283,3 +283,25 @@ b {
     padding-bottom: 1em;
     text-align: center;
 }
+
+table {
+    position: absolute;
+    width: 80%;
+    float: left;
+    margin-left: 10%;
+    margin-top: 20%;
+    border-collapse: collapse;
+    overflow: scroll;
+}
+
+table,
+th,
+tr,
+td {
+    border: 1px solid white;
+}
+
+td {
+    color: white;
+    padding: 1em;
+}
