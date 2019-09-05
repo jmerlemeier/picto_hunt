@@ -92,6 +92,9 @@ var upload = multer({ storage: storage })
 
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
+function renderHome(request, response) {
+  response.render('pages/index');
+}
 
 app.post('/pictostart', saveName);
 
@@ -109,9 +112,13 @@ function renderPictoStart(req, res) {
     res.render('pages/category', { item: answer });
 }
 
-function renderHome(request, response) {
-    response.render('pages/index');
-}
+
+app.get('/highscores', renderHighScore); //res.render('pages/highscore')
+function renderHighScore(req, res) {
+  pgclient.query(`SELECT * FROM scores`).then(sqlResponse => {
+    console.log(sqlResponse);
+    res.render('pages/highscore', {sqlData: sqlResponse});
+  })
 
 app.post('/result', upload.single('image'), function(req, res, next) {
     googleVisionApi(req.file.path).then(sucess => {
