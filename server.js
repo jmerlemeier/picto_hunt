@@ -1,5 +1,6 @@
 'use strict'
 
+let username;
 
 const express = require('express');
 const pg = require('pg');
@@ -84,23 +85,17 @@ var upload = multer({ storage: storage })
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
 
-// app.get('/pictostart', renderGame);
-// // sends item to frontend to be rendered
-// function renderGame(request, response) {
-//   response.render('pages/category', {item: answer});
-// }
-
 app.post('/pictostart', saveName);
 function saveName(req, res) {
-  console.log('****************** Request ********************')
-  console.log(req.body);
-  console.log('****************** Response ********************')
-  // console.log(res);
-  res.render('pages/category', {item: answer});
+  console.log('username is ', req.body.name);
+  username = req.body.name;
+  pgclient.query('INSERT INTO scores (username) VALUES ($1)', [username]).then( () => {
+    res.render('pages/category', {item: answer});
+    // Dear future Sharina (and James), added username to database, still need to update score. Yarrraayy
+  });
 }
 function renderHome(request, response) {
   response.render('pages/index');
-
 }
 
 app.post('/result', upload.single('image'), function(req, res, next) {
