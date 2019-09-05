@@ -4,7 +4,20 @@
         <%- include ../layout/header.ejs %>
             <main>
                 <div id="Highscorecard">
-
+                    <table>
+                        <thead>
+                            <th>Names</th>
+                            <th>Score</th>
+                        </thead>
+                        <tbody>
+                            <% for(let i = 0; i < sqlData.length; i++) { %>
+                                <tr>
+                                    <td><%= sqlData[i].username %></td>
+                                    <td><%= sqlData[i].score %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
                 <%- include ../layout/footer.ejs %>
             </main>

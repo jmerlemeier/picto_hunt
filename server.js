@@ -30,8 +30,6 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
-console.log(`Go find a ${answer}`)
-
 /////// Google Vision SetUp ///////
 // imports client library for google cloud
 const vision = require('@google-cloud/vision');
@@ -49,21 +47,20 @@ function googleVisionApi(url) {
 
       //This will update the regex for each answer;
       let regex = new RegExp(answer, "gi")
-      console.log('the regex is', regex);
+      // console.log('the regex is', regex);
 
       labels.forEach(label => {
         // If it contains the answer and a score higher than 50% then it is a match
         if (label.description.match(regex) && label.score > .5) {
-          console.log(`it's a match!`);
-          console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
+          // console.log(`it's a match!`);
+          // console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
           response = `It's a match!`;
 
         } else if (response !== `It's a match!`) {
-          console.log('no match :(');
-          console.log(`${label.description} is not a match`);
+          // console.log('no match :(');
+          // console.log(`${label.description} is not a match`);
           response = `Not a match`;
         }
-        console.log(response);
       })
       //After the comparison updates the sql score
       if (response === `It's a match!`) {
@@ -99,7 +96,6 @@ function renderHome(request, response) {
 app.post('/pictostart', saveName);
 
 function saveName(req, res) {
-  console.log('username is ', req.body.name);
   username = req.body.name;
   pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
     res.render('pages/category', { item: answer });
@@ -116,8 +112,7 @@ function renderPictoStart(req, res) {
 app.get('/highscores', renderHighScore); //res.render('pages/highscore')
 function renderHighScore(req, res) {
   pgclient.query(`SELECT * FROM scores`).then(sqlResponse => {
-    console.log(sqlResponse);
-    res.render('pages/highscore', {sqlData: sqlResponse});
+    res.render('pages/highscore', {sqlData: sqlResponse.rows});
   })
 }
 
