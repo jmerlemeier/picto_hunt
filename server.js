@@ -140,7 +140,7 @@ function renderHighScore(req, res) {
 
 
 app.post('/result', upload.single('image'), function(req, res, next) {
-  console.log(`google vision api: 142`);
+  console.log(`google vision api: 142 ${req.file.path}`);
   googleVisionApi(req.file.path).then(sucess => {
     console.log(`google vision api: 144`);
     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
