@@ -93,7 +93,8 @@ var storage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname)
   }
 })
-var upload = multer({ storage: storage })
+// var upload = multer({ storage: storage })
+var upload = multer({});
 
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
