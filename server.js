@@ -57,7 +57,7 @@ function googleVisionApi(url){
           console.log(`it's a match!`);
           console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
           response = `It's a match!`;
-          
+
         }else if (response !== `It's a match!`){
           console.log('no match :(');
           console.log(`${label.description} is not a match`);
@@ -65,6 +65,14 @@ function googleVisionApi(url){
         }
         console.log(response);
       })
+      //After the comparison updates the sql score
+      if(response === `It's a match!`){
+        let sqlQuery = `UPDATE scores SET score = score + 200 WHERE username = $1`;
+        pgclient.query(sqlQuery, [username]).then(() => {
+          console.log('sql score!');
+        });
+      }
+      
       return response;
     })
     .catch(err => {
