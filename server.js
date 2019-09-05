@@ -26,6 +26,10 @@ let randomInt = 4;
 // let randomInt = Math.floor(Math.random() * answers.length);
 let answer = answers[randomInt];
 
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./public'));
+
 console.log(`Go find a ${answer}`)
 
 /////// Google Vision SetUp ///////
