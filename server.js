@@ -46,9 +46,11 @@ const client = new vision.ImageAnnotatorClient({
 //input: needs a url as a string
 function googleVisionApi(url) {
   let response;
+  console.log(`google vision api: 49`);
   return client
     .labelDetection(url)
     .then(results => {
+      console.log(`google vision api: 53`);
       const labels = results[0].labelAnnotations;
 
       //This will update the regex for each answer;
@@ -137,8 +139,11 @@ function renderHighScore(req, res) {
 
 
 app.post('/result', upload.single('image'), function(req, res, next) {
+  console.log(`google vision api: 142`);
   googleVisionApi(req.file.path).then(sucess => {
+    console.log(`google vision api: 144`);
     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
+      console.log(`google vision api: 146`);
       res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
     })
   });
