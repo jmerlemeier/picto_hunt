@@ -9,6 +9,7 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 let multer = require('multer');
 let fs = require('fs');
+let cloudinary = require('cloudinary');
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
@@ -138,17 +139,35 @@ function renderHighScore(req, res) {
   })
 }
 
+var stream = cloudinary.uploader.upload_stream(function(result) { console.log(result); });
 
-app.post('/result', upload.single('image'), function(req, res, next) {
-  console.log(`google vision api: 142 ${req.file.path}`);
-  googleVisionApi(req.file.path).then(sucess => {
-    console.log(`google vision api: 144`);
-    pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
-      console.log(`google vision api: 146`);
-      res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
-    })
-  });
+// app.get('/result', function(req, res) {
+//   res.send('<form method="post" enctype="multipart/form-data">'
+//     + '<p>Public ID: <input type="text" name="title"/></p>'
+//     + '<p>Image: <input type="file" name="image"/></p>'
+//     + '<p><input type="submit" value="Upload"/></p>'
+//     + '</form>');
+// });
+
+app.post('/result', function(req, res, next) {
+  stream = cloudinary.uploader.upload_stream(function(result) {
+    console.log(result);
+    res.send('Done:<br/> <img src="' + result.url + '"/><br/>' +
+             cloudinary.image(result.public_id, { format: "png", width: 100, height: 130, crop: "fill" }));
+  }, { public_id: req.body.title } );
+  fs.createReadStream(req.files.image.path, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
 });
+
+// app.post('/result', upload.single('image'), function(req, res, next) {
+//   console.log(`google vision api: 142 ${req.file.path}`);
+//   googleVisionApi(req.file.path).then(sucess => {
+//     console.log(`google vision api: 144`);
+//     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
+//       console.log(`google vision api: 146`);
+//       res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
+//     })
+//   });
+// });
 
 
 app.get('/uploads/fullsize/:file', function(req, res) {
