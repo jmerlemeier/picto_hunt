@@ -5,17 +5,21 @@
             <main>
                 <div id="Highscorecard">
                     <table>
-                        <thead>
+                        <thead id="tableHeader">
                             <th>Names</th>
                             <th>Score</th>
                         </thead>
                         <tbody>
                             <% for(let i = 0; i < sqlData.length; i++) { %>
-                                <tr>
-                                    <td><%= sqlData[i].username %></td>
-                                    <td><%= sqlData[i].score %></td>
+                                <tr id="tableRow">
+                                    <td>
+                                        <%= sqlData[i].username %>
+                                    </td>
+                                    <td>
+                                        <%= sqlData[i].score %>
+                                    </td>
                                 </tr>
-                            <% } %>
+                                <% } %>
                         </tbody>
                     </table>
                 </div>
