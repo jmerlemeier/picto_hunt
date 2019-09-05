@@ -150,6 +150,7 @@ var stream = cloudinary.uploader.upload_stream(function(result) { console.log(re
 // });
 
 app.post('/result', function(req, res, next) {
+  console.log(`this is the request body${req.body}`);
   stream = cloudinary.uploader.upload_stream(function(result) {
     console.log(result);
     res.send('Done:<br/> <img src="' + result.url + '"/><br/>' +
