@@ -19,12 +19,18 @@ pgclient.connect();
 // setup error logging
 pgclient.on('error', (error) => console.error(error));
 
-const answers = ['dog', 'cat', 'yoga mats', 'water bottle', 'computer', 'phone', 'cup'];
+const answers = ['water bottle', 'computer', 'cup', 'fork', 'rubber duckie', 'glasses'];
 // For now always looking for computers
-let randomInt = 4;
+//let randomInt = 4;
 // Uncomment for random answers
-// let randomInt = Math.floor(Math.random() * answers.length);
-let answer = answers[randomInt];
+
+let randomInt;
+let answer;
+function randomize() {
+  randomInt = Math.floor(Math.random() * answers.length);
+  answer = answers[randomInt];
+}
+randomize();
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -64,12 +70,12 @@ function googleVisionApi(url) {
       })
       //After the comparison updates the sql score
       if (response === `It's a match!`) {
+        randomize();
         let sqlQuery = `UPDATE scores SET score = score + 200 WHERE username = $1`;
         pgclient.query(sqlQuery, [username]).then(() => {
           console.log('sql score!');
         });
       }
-
       return response;
     })
     .catch(err => {
@@ -89,18 +95,30 @@ var upload = multer({ storage: storage })
 
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
+
 function renderHome(request, response) {
   response.render('pages/index');
 }
+
 
 app.post('/pictostart', saveName);
 
 function saveName(req, res) {
   username = req.body.name;
-  pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
-    res.render('pages/category', { item: answer });
-  });
+  console.log(username);
+  pgclient.query('SELECT * FROM scores WHERE username=$1', [username]).then( (sqlResult) => {
+    // if we can't find name in database, then we make the name. 
+    console.log(sqlResult.rows);
+    if(sqlResult.rows.length === 0){
+      pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
+        res.render('pages/category', { item: answer });
+      });
+    } else {
+      res.render('pages/category', { item: answer });
+    }
+  })
 }
+
 
 app.get('/pictostart', renderPictoStart);
 
@@ -110,18 +128,22 @@ function renderPictoStart(req, res) {
 
 
 app.get('/highscores', renderHighScore); //res.render('pages/highscore')
+
 function renderHighScore(req, res) {
   pgclient.query(`SELECT * FROM scores`).then(sqlResponse => {
     res.render('pages/highscore', {sqlData: sqlResponse.rows});
   })
 }
 
+
 app.post('/result', upload.single('image'), function(req, res, next) {
   googleVisionApi(req.file.path).then(sucess => {
-    res.render('./pages/result', { image: req.file.path, msg: sucess });
-
+    pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
+      res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
+    })
   });
 });
+
 
 app.get('/uploads/fullsize/:file', function(req, res) {
   let file = req.params.file;
