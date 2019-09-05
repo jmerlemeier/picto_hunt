@@ -69,7 +69,6 @@ function googleVisionApi(url) {
           console.log('sql score!');
         });
       }
-
       return response;
     })
     .catch(err => {
@@ -97,9 +96,17 @@ app.post('/pictostart', saveName);
 
 function saveName(req, res) {
   username = req.body.name;
-  pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
+  console.log(username);
+  pgclient.query('SELECT * FROM scores WHERE username=$1', [username]).then( (sqlResult) => {
+    // if we can't find name in database, then we make the name. 
+    console.log(sqlResult.rows);
+    if(sqlResult.rows.length === 0){
+      pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
+        res.render('pages/category', { item: answer });
+      });
+    }
     res.render('pages/category', { item: answer });
-  });
+  })
 }
 
 app.get('/pictostart', renderPictoStart);
@@ -118,7 +125,8 @@ function renderHighScore(req, res) {
 
 app.post('/result', upload.single('image'), function(req, res, next) {
   googleVisionApi(req.file.path).then(sucess => {
-    res.render('./pages/result', { image: req.file.path, msg: sucess });
+    //res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: 'you are rich'});
+    res.render('./pages/result', { image: req.file.path, msg: sucess});
 
   });
 });
