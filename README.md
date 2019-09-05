@@ -10,16 +10,15 @@ dotenv, ejs, express, method-override, pg, superagent, and multer.
 8/29/19, Peter
 Spike: Confirming functionality of camera use - saving newly taken pic from mobile phone to server on computer.
 
-8/30/19, All + Nick
-Peter shared spike with group, then showed Nick: Approved.
-Created Trello Board 
+8/30/19, All
+Shared spike with group, then showed Nick: Approved.
+Created Trello Board, separated tasks into backend and frontend.
 
-8/30/19, 1000-1200, All
+8/30/19, All
 * Discussed topics
 * Wireframes
 * User Stories
 
-9/5/19, 
 
 ### Roles
 Julie: PM and Head of Functionality
