@@ -300,18 +300,18 @@ table {
 }
 
 tr:nth-child(odd) {
-    background: rgba(222, 151, 106, 0.954);
+    /* background: rgba(222, 151, 106, 0.954); */
 }
 
 tr:nth-child(even) {
-    background: rgba(222, 151, 106, 0.954);
+    /* background: rgba(222, 151, 106, 0.954); */
 }
 
 table,
 th,
 tr,
 td {
-    /* border: 1px solid white; */
+    border: 1px solid white;
 }
 
 td {
