@@ -27,7 +27,11 @@
                 </div>
                 <%- include ../layout/footer.ejs %>
             </main>
-
+            <script>
+                $("#savePhoto").change(function() {
+                    $("#savePhotoPlaceholder").css("background-color", "red");
+                });
+            </script>
     </body>
 
     </html>
