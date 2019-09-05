@@ -1,24 +1,25 @@
 # picto_hunt
-401 project with SS, JD, PC, JE
+Code Fellows 301-Intermediate Software Development Project.
+Authors: Peter Carmicheal, James Dansie, Julie Erlemeier, Sharina Stubbs.
+Teaching Staff: Nicholar Carignan (Lead Instructor), Lena Eivy (Assistant Instructor), Dan Le (Teaching Assistant).
 
 ### Dependencies
-To install dependencies use npm install;
-The dependencies are; dotenv, ejs, express, method-override, pg, superagent, and multer.
+dotenv, ejs, express, method-override, pg, superagent, and multer.
 
-### Time Schedule
-8/29/19, 7-930pm, Peter
+### Daily Schedule
+8/29/19, Peter
 Spike: Confirming functionality of camera use - saving newly taken pic from mobile phone to server on computer.
 
-8/30/19, 930, All + Nick
+8/30/19, All + Nick
 Peter shared spike with group, then showed Nick: Approved.
-
-9/30/19, 945, James
-Spoke to Nick about Location API: Approved.
+Created Trello Board 
 
 8/30/19, 1000-1200, All
 * Discussed topics
 * Wireframes
 * User Stories
+
+9/5/19, 
 
 ### Roles
 Julie: PM and Head of Functionality
@@ -26,16 +27,19 @@ James : polish piece for portfolio, head API integration.
 Sharina: Creating something functional and usable, use project week to pull together CTO
 Peter: Master of Breaks, CSS, Head of design: modern and gorgeous, from scratch, paralax(different scroll speeds, animation. Want to give everyone a url so they can follow along in the audience. 
 
+James/Sharina: Back-end development
+Peter: Front-end development
+Julie: Mediated communication between Front and Back ends
+
 ### Communication Plan
 Communication Formats After Hours and On Weekend:
 Slack
 Trello for file sharing, To Do lists
 
 #### Communication in the code:
-
 * Go way overkill on the comments.
 * Group Working Hours
-    9am – 6pm group time 
+    9am – 6pm group time.
     8am- 9:15pm be aware group member(s) may need to communicate after group time
 * Strategy for Making Sure Voices are Heard (within a safe environment)
 * Two daily stand-ups 9:00, 1pm
