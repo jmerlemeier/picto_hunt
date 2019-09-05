@@ -13,7 +13,7 @@ a:hover {
     position: fixed;
     top: 30px;
     left: 20px;
-    padding-right: 40%;
+    padding-right: 50%;
     z-index: 1;
     -webkit-user-select: none;
     user-select: none;
@@ -154,6 +154,7 @@ h1 {
     text-align: center;
     letter-spacing: 2px;
     margin-bottom: 50px;
+    padding-top: 28%;
 }
 
 p {
@@ -297,6 +298,7 @@ table {
     margin-bottom: 8em;
     font-family: 'Ubuntu', sans-serif;
     font-size: 1.2em;
+    background: url("https://images.unsplash.com/photo-1557683304-673a23048d34?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60")
 }
 
 tr:nth-child(odd) {
