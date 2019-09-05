@@ -97,11 +97,16 @@ app.post('/pictostart', saveName);
 function saveName(req, res) {
   console.log('username is ', req.body.name);
   username = req.body.name;
-  pgclient.query('INSERT INTO scores (username) VALUES ($1)', [username]).then( () => {
+  pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then( () => {
     res.render('pages/category', {item: answer});
-    // Dear future Sharina (and James), added username to database, still need to update score. Yarrraayy
   });
 }
+
+app.get('/pictostart', renderPictoStart);
+function renderPictoStart(req, res){
+  res.render('pages/category', {item: answer});
+}
+
 function renderHome(request, response) {
   response.render('pages/index');
 }
