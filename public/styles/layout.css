@@ -254,31 +254,35 @@ b {
     background: #ededed;
     border-radius: 7px;
     margin-left: 10%;
-    margin-top: 150px;
+    margin-top: 28%;
     /* text-align: center; */
 }
 
 #resultImg {
-    margin-left: 8%;
+    margin-left: 13%;
     border-radius: 7px;
     border: 2px solid #FF8E20;
     margin-bottom: 8%;
+    margin-top: 8%;
 }
 
 #resultText {
     color: black;
-    font-size: 3em;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 2em;
     font-weight: 200;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 0.8em;
     margin-top: 0.2em;
 }
 
 #playAgain {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: black;
-    font-size: 2em;
+    font-size: 1.7em;
     font-weight: 200;
+    border: groove black 2px;
+    padding: 0.3em;
 }
 
 #containerText {
@@ -301,12 +305,12 @@ table {
     background: url("https://images.unsplash.com/photo-1557683304-673a23048d34?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60")
 }
 
-tr:nth-child(odd) {
-    /* background: rgba(222, 151, 106, 0.954); */
-}
-
-tr:nth-child(even) {
-    /* background: rgba(222, 151, 106, 0.954); */
+th {
+    font-size: 1.5em;
+    letter-spacing: 0.2em;
+    text-align: center;
+    padding: 0.5em;
+    color: rgb(182, 181, 181);
 }
 
 table,
