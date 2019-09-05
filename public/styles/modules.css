@@ -84,12 +84,13 @@ input:-webkit-autofill {
 #footer {
     width: 80%;
     float: left;
-    position: absolute;
+    position: fixed;
+    bottom: 1.3em;
     margin: auto;
     text-align: center;
     color: #ededed;
-    bottom: 10px;
     margin-left: 10%;
+    z-index: -2;
 }
 
 .bar2 {
