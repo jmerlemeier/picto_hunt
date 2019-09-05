@@ -19,7 +19,7 @@ pgclient.connect();
 // setup error logging
 pgclient.on('error', (error) => console.error(error));
 
-const answers = ['water bottle', 'computer', 'endosperm', 'skinny dipping', 'glasses'];
+const answers = ['water bottle', 'computer', 'cup', 'fork', 'rubber duckie', 'glasses'];
 // For now always looking for computers
 //let randomInt = 4;
 // Uncomment for random answers
