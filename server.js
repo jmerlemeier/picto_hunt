@@ -10,6 +10,7 @@ const PORT = process.env.PORT;
 let multer = require('multer');
 let fs = require('fs');
 let cloudinary = require('cloudinary');
+const fileUpLoad = require('express-fileupload');
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
@@ -149,14 +150,39 @@ var stream = cloudinary.uploader.upload_stream(function(result) { console.log(re
 //     + '</form>');
 // });
 
-app.post('/result', function(req, res, next) {
-  console.log(`this is the request body${req.body}`);
+app.post('/result', upload.single('image'),  function(req, res, next) {
+  console.log('this is the request file',req.file);
   stream = cloudinary.uploader.upload_stream(function(result) {
     console.log(result);
     res.send('Done:<br/> <img src="' + result.url + '"/><br/>' +
              cloudinary.image(result.public_id, { format: "png", width: 100, height: 130, crop: "fill" }));
   }, { public_id: req.body.title } );
-  fs.createReadStream(req.files.image.path, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
+  fs.createReadStream(req.file.buffer.toString('utf8'), {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
+});
+
+
+app.get('/lol', function(req, res) {
+  res.send('<form method="post" enctype="multipart/form-data">'
+    + '<p>Public ID: <input type="text" name="title"/></p>'
+    + '<p>Image: <input type="file" name="image"/></p>'
+    + '<p><input type="submit" value="Upload"/></p>'
+    + '</form>');
+});
+app.use(fileUpLoad({
+  useTempFiles: true,
+  tempFileDir: './uploads/fullsize/'
+}));
+app.post('/lol', function(req, res, next) {
+  console.log(req.files);
+  stream = cloudinary.uploader.upload_stream(function(result) {
+    console.log(result);
+    res.send('Done:<br/> <img src="' + result.url + '"/><br/>' +
+             cloudinary.image(result.public_id, { format: "png", width: 100, height: 130, crop: "fill" }));
+  }, { public_id: req.body.title } );
+
+  console.log(cloudinary.url("sample.jpg", { width: 100, height: 150, crop: "fill" }))
+
+  fs.createReadStream(req.files.image.tempFilePath, {encoding: 'binary'}).on('data', stream.write).on('end', stream.end);
 });
 
 // app.post('/result', upload.single('image'), function(req, res, next) {
