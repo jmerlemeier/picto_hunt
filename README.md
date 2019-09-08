@@ -1,13 +1,13 @@
 # picto_hunt
 A fun and interactive mobile app game that utilizes Google Vision API, a PostGresSQL database, and a camera phone. A user is assigned a item to find, and if the item they take a picture of matches that assignment, the user gains points.  
 
-A Code Fellows 301-Intermediate Software Development Project.
-
-Project Contributors: Peter Carmicheal, James Dansie, Julie Erlemeier, Sharina Stubbs.
-
-Teaching Staff: Nicholar Carignan (Lead Instructor), Lena Eivy (Assistant Instructor), Dan Le (Teaching Assistant).
-
 ![screenshot of page](img/home.png)
+
+### Designed and Built by the Rooftop Collective
+Peter Carmicheal, James Dansie, Julie Erlemeier, Sharina Stubbs.
+
+### A Code Fellows 301-Intermediate Software Development Project.
+Teaching Staff: Nicholar Carignan (Lead Instructor), Lena Eivy (Assistant Instructor), Dan Le (Teaching Assistant).
 
 ### Dependencies
 dotenv, ejs, express, method-override, pg, superagent, google-cloud/vision, and multer.
