@@ -4,23 +4,44 @@ Authors: Peter Carmicheal, James Dansie, Julie Erlemeier, Sharina Stubbs.
 Teaching Staff: Nicholar Carignan (Lead Instructor), Lena Eivy (Assistant Instructor), Dan Le (Teaching Assistant).
 
 ### Dependencies
-dotenv, ejs, express, method-override, pg, superagent, and multer.
+dotenv, ejs, express, method-override, pg, superagent, google-cloud/vision, and multer.
 
 ### Daily Schedule
 8/29/19, Peter
-Spike: Confirming functionality of camera use - saving newly taken pic from mobile phone to server on computer.
+* Spike: Confirming functionality of camera use - saving newly taken pic from mobile phone to server on computer.
 
 8/30/19, All
-Shared spike with group, then showed Nick: Approved.
-Created Trello Board, separated tasks into backend and frontend.
+* Shared spike with group, then showed Nick: Approved.
+* Created Trello Board, separated tasks into backend and frontend.
 
 8/30/19, All
 * Discussed topics
 * Wireframes
 * User Stories
+* Server up and running
 
+9/3/19, All
+* Basic integration to Google Vision API, so that console output shows labels that correlate to the photo taken
+* Styling and EJS started
+* File Tree completed 
+* Camera functionality 
+* Logic for comparison of photos to item to find established and working
 
-### Roles
+9/4/19, All
+* Styling, including that for results page and nav bar.
+* Google API key issues regarding .env file formatting dealt with.
+* Front end gained access to results from photo analysis sent through Google Vision API. 
+* Significant work on asynchronous events in the backend. 
+* Database basic functionality achieved, with usernames added to database. 
+
+9/5/19, All
+* Dealt with an issue of duplication of usernames in database
+* Achieved success with updating scores in the database and sending score and high scores over to front end
+* Fixed layout issues with all pages and improved usability for the user.
+* Randomizer of items to find and logic regarding points achieved.
+* Attempted to redeploy to Heroku with help of Cloudinary to store images, but without success.
+
+### Roles and Individual Goals
 Julie: PM and Head of Functionality
 James : polish piece for portfolio, head API integration.
 Sharina: Creating something functional and usable, use project week to pull together CTO
@@ -28,7 +49,7 @@ Peter: Master of Breaks, CSS, Head of design: modern and gorgeous, from scratch,
 
 James/Sharina: Back-end development
 Peter: Front-end development
-Julie: Mediated communication between Front and Back ends
+Julie: Mediated communication between front and back end teams, and contributed to both front-end and back-end development.
 
 ### Communication Plan
 Communication Formats After Hours and On Weekend:
