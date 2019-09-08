@@ -6,6 +6,16 @@ Teaching Staff: Nicholar Carignan (Lead Instructor), Lena Eivy (Assistant Instru
 ### Dependencies
 dotenv, ejs, express, method-override, pg, superagent, google-cloud/vision, and multer.
 
+### Database table
+```
+DROP TABLE IF EXISTS scores;
+CREATE TABLE scores(
+ id SERIAL PRIMARY KEY,
+ username VARCHAR(255),
+ score BIGINT
+);
+```
+
 ### Daily Schedule
 8/29/19, Peter
 * Spike: Confirming functionality of camera use - saving newly taken pic from mobile phone to server on computer.
