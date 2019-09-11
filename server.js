@@ -131,6 +131,7 @@ app.get('/highscores', renderHighScore); //res.render('pages/highscore')
 
 function renderHighScore(req, res) {
   pgclient.query(`SELECT * FROM scores`).then(sqlResponse => {
+    console.log(sqlResponse.rows);
     res.render('pages/highscore', {sqlData: sqlResponse.rows});
   })
 }
