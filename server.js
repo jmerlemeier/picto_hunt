@@ -5,13 +5,18 @@ let username;
 const express = require('express');
 const pg = require('pg');
 const app = express();
+const aws = require('aws-sdk');
 require('dotenv').config();
 const PORT = process.env.PORT;
-let multer = require('multer');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const router = express.Router();
 let fs = require('fs');
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
+
+const s3 = new aws.S3();
 
 //postgres client
 const pgclient = new pg.Client(process.env.DATABASE_URL);
@@ -27,7 +32,8 @@ const answers = ['water bottle', 'computer', 'cup', 'fork', 'rubber duckie', 'gl
 let randomInt;
 let answer;
 function randomize() {
-  randomInt = Math.floor(Math.random() * answers.length);
+  randomInt = 1;
+  // randomInt = Math.floor(Math.random() * answers.length);
   answer = answers[randomInt];
 }
 randomize();
@@ -53,18 +59,17 @@ function googleVisionApi(url) {
 
       //This will update the regex for each answer;
       let regex = new RegExp(answer, "gi")
-      // console.log('the regex is', regex);
 
       labels.forEach(label => {
         // If it contains the answer and a score higher than 50% then it is a match
         if (label.description.match(regex) && label.score > .5) {
-          // console.log(`it's a match!`);
-          // console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
+          console.log(`it's a match!`);
+          console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
           response = `It's a match!`;
 
         } else if (response !== `It's a match!`) {
-          // console.log('no match :(');
-          // console.log(`${label.description} is not a match`);
+          console.log('no match :(');
+          console.log(`${label.description} is not a match`);
           response = `Not a match`;
         }
       })
@@ -83,15 +88,7 @@ function googleVisionApi(url) {
     });
 }
 
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, 'uploads/fullsize')
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
-var upload = multer({ storage: storage })
+
 
 //====================== CAMERA FUNCTIONALITY ==================
 app.get('/', renderHome);
@@ -136,22 +133,90 @@ function renderHighScore(req, res) {
   })
 }
 
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'uploads/fullsize')
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
+})
+var upload = multer({ storage: storage })
 
-app.post('/result', upload.single('image'), function(req, res, next) {
-  googleVisionApi(req.file.path).then(sucess => {
+// Original result section
+// app.post('/result', upload.single('image'), function(req, res, next) {
+//   googleVisionApi(req.file.path).then(sucess => {
+//     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
+//       res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
+//     })
+//   });
+// });
+
+
+// app.get('/uploads/fullsize/:file', function(req, res) {
+//   let file = req.params.file;
+//   var img = fs.readFileSync(__dirname + '/uploads/fullsize/' + file);
+//   res.writeHead(200, { 'Content-Type': 'image/jpg' });
+//   res.end(img, 'binary');
+
+// });
+
+app.listen(PORT, () => { console.log(`app is up on port ${PORT}. BYEAH!`) });
+
+//****************************** AWS LAND ********************** */
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type, only jpeg and png allowed.'), false);
+  }
+}
+
+// from https://www.freecodecamp.org/news/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792/ and https://github.com/Jerga99/bwm-ng/blob/master/server/services/image-upload.js
+const awsUpload = multer({
+  fileFilter,
+  storage: multerS3({
+    acl: 'public-read',
+    s3: s3,
+    bucket: 'pictohunt',
+    metadata: function(req, file, cb) {
+      cb(null, {fieldName: 'TESTING_METADATA'});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  })
+})
+
+const singleUpload = awsUpload.single('image');
+
+app.post('/image-upload', function(req, res) {
+  singleUpload(req, res, function(err) {
+    if (err) {
+      return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}]});
+    }
+
+    return res.json({'imageUrl': req.file.location});
+  });
+});
+
+app.post('/result', awsUpload.single('image'), function(req, res, next) {
+  singleUpload(req, res, function(err) {
+    console.log('in singleUpload');
+    // console.log('the file is',req.file);
+    if (err){
+      console.log('error in upload :(');
+    }
+    //This is still assuming that user uploads from their machine. Needs local storage still.
+    // console.log(res.json({'imageUrl': req.file.path}));
+    console.log('res.location is ',res.Location);
+    console.log('req.file.location is',req.file.location);
+  })
+  googleVisionApi(req.file.location).then(sucess => {
     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
       res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
     })
   });
-});
-
-
-app.get('/uploads/fullsize/:file', function(req, res) {
-  let file = req.params.file;
-  var img = fs.readFileSync(__dirname + '/uploads/fullsize/' + file);
-  res.writeHead(200, { 'Content-Type': 'image/jpg' });
-  res.end(img, 'binary');
 
 });
-
-app.listen(PORT, () => { console.log(`app is up on port ${PORT}. BYEAH!`) });
