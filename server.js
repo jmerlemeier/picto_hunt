@@ -16,7 +16,11 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
-const s3 = new aws.S3();
+// const s3 = new aws.S3();
+const s3 = new aws.S3({
+  accessKeyId: process.env.aws_access_key_id,
+  secretAccessKey: process.env.aws_secret_access_key
+});
 
 //postgres client
 const pgclient = new pg.Client(process.env.DATABASE_URL);
@@ -133,17 +137,18 @@ function renderHighScore(req, res) {
   })
 }
 
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, 'uploads/fullsize')
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
-var upload = multer({ storage: storage })
+// Original result section and multer to local disk
 
-// Original result section
+// var storage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     cb(null, 'uploads/fullsize')
+//   },
+//   filename: function(req, file, cb) {
+//     cb(null, Date.now() + '-' + file.originalname)
+//   }
+// })
+// var upload = multer({ storage: storage })
+
 // app.post('/result', upload.single('image'), function(req, res, next) {
 //   googleVisionApi(req.file.path).then(sucess => {
 //     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
@@ -152,19 +157,11 @@ var upload = multer({ storage: storage })
 //   });
 // });
 
-
-// app.get('/uploads/fullsize/:file', function(req, res) {
-//   let file = req.params.file;
-//   var img = fs.readFileSync(__dirname + '/uploads/fullsize/' + file);
-//   res.writeHead(200, { 'Content-Type': 'image/jpg' });
-//   res.end(img, 'binary');
-
-// });
-
 app.listen(PORT, () => { console.log(`app is up on port ${PORT}. BYEAH!`) });
 
 //****************************** AWS LAND ********************** */
 
+//Checks that the file type is jpeg or png
 const fileFilter = (req, file, cb) => {
   if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
     cb(null, true);
@@ -191,16 +188,6 @@ const awsUpload = multer({
 
 const singleUpload = awsUpload.single('image');
 
-app.post('/image-upload', function(req, res) {
-  singleUpload(req, res, function(err) {
-    if (err) {
-      return res.status(422).send({errors: [{title: 'Image Upload Error', detail: err.message}]});
-    }
-
-    return res.json({'imageUrl': req.file.location});
-  });
-});
-
 app.post('/result', awsUpload.single('image'), function(req, res, next) {
   singleUpload(req, res, function(err) {
     console.log('in singleUpload');
@@ -208,15 +195,16 @@ app.post('/result', awsUpload.single('image'), function(req, res, next) {
     if (err){
       console.log('error in upload :(');
     }
-    //This is still assuming that user uploads from their machine. Needs local storage still.
-    // console.log(res.json({'imageUrl': req.file.path}));
-    console.log('res.location is ',res.Location);
     console.log('req.file.location is',req.file.location);
   })
   googleVisionApi(req.file.location).then(sucess => {
     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
-      res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
+      res.render('./pages/result', { image: req.file.location, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
+    }).catch(err => {
+      console.error('ERROR at SQL', err);
     })
+  }).catch(err => {
+    console.error('ERROR at Google Vision', err);
   });
-
 });
+
