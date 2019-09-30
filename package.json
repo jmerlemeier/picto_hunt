@@ -20,11 +20,13 @@
   "homepage": "https://github.com/jmerlemeier/picto_hunt#readme",
   "dependencies": {
     "@google-cloud/vision": "^1.2.0",
+    "aws-sdk": "^2.527.0",
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
     "method-override": "^3.0.0",
     "multer": "^1.4.2",
+    "multer-s3": "^2.9.0",
     "pg": "^7.12.1",
     "superagent": "^5.1.0"
   }
