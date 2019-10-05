@@ -49,6 +49,8 @@ app.use(express.static('./public'));
 /////// Google Vision SetUp ///////
 // imports client library for google cloud
 const vision = require('@google-cloud/vision');
+console.log('hi!');
+console.log(`The Test Variable is ${process.env.Test}`);
 const client = new vision.ImageAnnotatorClient({
   credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 });
