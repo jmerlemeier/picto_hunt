@@ -16,6 +16,10 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
+console.log('hi!');
+console.log(process.env.Test);
+console.log(`The Test Variable is ${process.env.Test}`);
+
 // const s3 = new aws.S3();
 const s3 = new aws.S3({
   accessKeyId: process.env.aws_access_key_id,
@@ -49,9 +53,6 @@ app.use(express.static('./public'));
 /////// Google Vision SetUp ///////
 // imports client library for google cloud
 const vision = require('@google-cloud/vision');
-console.log('hi!');
-console.log(process.env.Test);
-console.log(`The Test Variable is ${process.env.Test}`);
 const client = new vision.ImageAnnotatorClient({
   credentials: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
 });
