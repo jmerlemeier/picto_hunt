@@ -104,6 +104,10 @@ function renderHome(request, response) {
   response.render('pages/index');
 }
 
+app.get('/instructions', howToPlay);
+function howToPlay(req, res){
+  res.render('pages/instructions');
+}
 
 app.post('/pictostart', saveName);
 
