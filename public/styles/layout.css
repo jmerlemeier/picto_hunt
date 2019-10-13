@@ -10,6 +10,8 @@ a:hover {
 
 #instructionCard{
     padding-top: 15vh;
+    height: 90vh;
+    overflow: hidden;
 }
 
 #menuToggle {
