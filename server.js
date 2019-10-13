@@ -16,9 +16,9 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 
-console.log('hi!');
-console.log(process.env.Test);
-console.log(`The Test Variable is ${process.env.Test}`);
+// console.log('hi!');
+// console.log(process.env.Test);
+// console.log(`The Test Variable is ${process.env.Test}`);
 
 // const s3 = new aws.S3();
 const s3 = new aws.S3({
@@ -32,16 +32,15 @@ pgclient.connect();
 // setup error logging
 pgclient.on('error', (error) => console.error(error));
 
-const answers = ['water bottle', 'computer', 'cup', 'fork', 'rubber duckie', 'glasses'];
-// For now always looking for computers
-//let randomInt = 4;
-// Uncomment for random answers
+const answers = ['water bottle', 'computer', 'cup', 'fork', 'cat', 'glasses', 'flower', 'paperclip', 'teapot', 'screw', 'marble', 'ring'];
+
 
 let randomInt;
 let answer;
 function randomize() {
-  randomInt = 1;
-  // randomInt = Math.floor(Math.random() * answers.length);
+  // Uncomment to target computers
+  // randomInt = 1;
+  randomInt = Math.floor(Math.random() * answers.length);
   answer = answers[randomInt];
 }
 randomize();
@@ -71,13 +70,13 @@ function googleVisionApi(url) {
       labels.forEach(label => {
         // If it contains the answer and a score higher than 50% then it is a match
         if (label.description.match(regex) && label.score > .5) {
-          console.log(`it's a match!`);
-          console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
+          // console.log(`it's a match!`);
+          // console.log(`the ${label.description} has a ${Math.round(100*label.score)}% match`);
           response = `It's a match!`;
 
         } else if (response !== `It's a match!`) {
-          console.log('no match :(');
-          console.log(`${label.description} is not a match`);
+          // console.log('no match :(');
+          // console.log(`${label.description} is not a match`);
           response = `Not a match`;
         }
       })
@@ -86,7 +85,7 @@ function googleVisionApi(url) {
         randomize();
         let sqlQuery = `UPDATE scores SET score = score + 200 WHERE username = $1`;
         pgclient.query(sqlQuery, [username]).then(() => {
-          console.log('sql score!');
+          // console.log('sql score!');
         });
       }
       return response;
@@ -110,10 +109,10 @@ app.post('/pictostart', saveName);
 
 function saveName(req, res) {
   username = req.body.name;
-  console.log(username);
+  // console.log(username);
   pgclient.query('SELECT * FROM scores WHERE username=$1', [username]).then( (sqlResult) => {
     // if we can't find name in database, then we make the name. 
-    console.log(sqlResult.rows);
+    // console.log(sqlResult.rows);
     if(sqlResult.rows.length === 0){
       pgclient.query('INSERT INTO scores (username, score) VALUES ($1, 0)', [username]).then(() => {
         res.render('pages/category', { item: answer });
@@ -140,26 +139,6 @@ function renderHighScore(req, res) {
     res.render('pages/highscore', {sqlData: sqlResponse.rows});
   })
 }
-
-// Original result section and multer to local disk
-
-// var storage = multer.diskStorage({
-//   destination: function(req, file, cb) {
-//     cb(null, 'uploads/fullsize')
-//   },
-//   filename: function(req, file, cb) {
-//     cb(null, Date.now() + '-' + file.originalname)
-//   }
-// })
-// var upload = multer({ storage: storage })
-
-// app.post('/result', upload.single('image'), function(req, res, next) {
-//   googleVisionApi(req.file.path).then(sucess => {
-//     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
-//       res.render('./pages/result', { image: req.file.path, msg: sucess, pointsearned: '200', userpoints: sqlResult.rows[0].score});
-//     })
-//   });
-// });
 
 app.listen(PORT, () => { console.log(`app is up on port ${PORT}. BYEAH!`) });
 
@@ -194,12 +173,11 @@ const singleUpload = awsUpload.single('image');
 
 app.post('/result', awsUpload.single('image'), function(req, res, next) {
   singleUpload(req, res, function(err) {
-    console.log('in singleUpload');
     // console.log('the file is',req.file);
     if (err){
       console.log('error in upload :(');
     }
-    console.log('req.file.location is',req.file.location);
+    // console.log('req.file.location is',req.file.location);
   })
   googleVisionApi(req.file.location).then(sucess => {
     pgclient.query(`SELECT score FROM scores WHERE username=$1`, [username]).then(sqlResult => {
