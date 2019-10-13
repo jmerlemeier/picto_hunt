@@ -8,6 +8,10 @@ a:hover {
     color: rgb(110, 153, 61);
 }
 
+#instructionCard{
+    padding-top: 15vh;
+}
+
 #menuToggle {
     display: block;
     position: fixed;
