@@ -7,10 +7,7 @@ A fun and interactive mobile app game that utilizes Google Vision API, a PostGre
 Peter Carmicheal, James Dansie, Julie Erlemeier, Sharina Stubbs.
 
 ### Demo of App 
-In September 2019, PictoHunt was built and demoed by the Rooftop Collective to an audience. Here is a recording of the short demo during the presentation:
-[![Screen capture recording of live demo of app] (https://img.youtube.com/vi/0ZAuaZsf5nQ/0.jpg)](https://www.youtube.com/watch?v=0ZAuaZsf5nQ)
-
-[![Watch the video](https://i.imgur.com/0ZAuaZsf5nQ.png)](https://youtu.be/0ZAuaZsf5nQ)
+In September 2019, PictoHunt was built and demoed by the Rooftop Collective to an audience. You can watch the video on YouTube: https://www.youtube.com/watch?v=0ZAuaZsf5nQ
 
 
 ### A Code Fellows 301-Intermediate Software Development Project.
